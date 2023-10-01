@@ -5,7 +5,14 @@ runs:
   steps:
     - name: Get CMake
       uses: lukka/get-cmake@latest
+    - name: Fetch t1 sources
     - run: mkdir "$RUNNER_TEMP/t1-bin" && git clone https://github.com/daemontsun/t1 "$RUNNER_TEMP/t1-src" && cmake -Donly_install=1 "$RUNNER_TEMP/t1-src" -B "$RUNNER_TEMP/t1-bin"
       shell: bash
-    - run: sudo cmake --install "$RUNNER_TEMP/t1-bin"
+    - name: Install
+    - run: |
+           if [ "$RUNNER_OS" == "Windows" ]; then
+             cmake --install "$RUNNER_TEMP/t1-bin"
+           else
+             sudo cmake --install "$RUNNER_TEMP/t1-bin"
+           fi
       shell: bash
