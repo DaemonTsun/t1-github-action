@@ -1,0 +1,11 @@
+name: 't1 action'
+description: 'Installs t1 testing library'
+runs:
+  using: "composite"
+  steps:
+    - name: Get CMake
+      uses: lukka/get-cmake@latest
+    - run: mkdir "$RUNNER_TEMP/t1-bin" && git clone https://github.com/daemontsun/t1 "$RUNNER_TEMP/t1-src" && cmake -Donly_install=1 "$RUNNER_TEMP/t1-src" -B "$RUNNER_TEMP/t1-bin"
+      shell: bash
+    - run: sudo cmake --install "$RUNNER_TEMP/t1-bin"
+      shell: bash
